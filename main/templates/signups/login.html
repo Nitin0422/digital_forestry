@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title> Signup | Tree Regsitration </title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+    </style>
+   </head>
+<body>
+  <div class="container">
+    <div class="title"> Login </div>
+    <div class="content">
+      <form method = "POST">
+        {% csrf_token %}
+        {% if form.errors %}
+                <div class="error">{{ form.errors }}</div>
+              {% endif %}
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Email</span>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="error">{{ form.username.errors }}</div>
+              {% endif %}
+          </div>
+          <div class="input-box">
+            <span class="details">Password</span>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="error">{{ form.password.errors }}</div>
+              {% endif %}
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="Login">
+        </div>
+        <p> Don't have an account? <a href="/registration">Register Here</a></p>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins',sans-serif;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3dc7c53f;
+            margin: 0;
+            padding: 0;
+            min-height: 90vh;
+        }
+        form{
+            height: 95vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #9e120d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        a:hover {
+            background-color: #720a0a;
+        }
+
+        button{
+            background-color: #0d9e25;
+            color: white;
+            text-decoration: none;
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+        button:hover{
+            background-color: #0a722d;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <form method = "POST">
+        {% csrf_token %}
+        <a href="{%url 'main:land_information'%}">Cancel</a>
+        <button type="submit"> Confirm Delete</button>
+
+    </form>
+</body>
+</html>

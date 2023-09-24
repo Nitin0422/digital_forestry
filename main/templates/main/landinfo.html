@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/landinfo.css' %}">
+    <title>Your Web Page</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <section>
+        <a href="{% url 'main:home'%}"> ← Go home</a>
+        <br>
+        <h2>Land Associated with {{user}}</h2>
+        <table>
+            <tr>
+                <th>Land id</th>
+                <th>Province</th>
+                <th>Local Level</th>
+                <th>Ward</th>
+                <th>Kitta Number</th>
+                <th>Area</th>
+                <th>GPS Longitude</th>
+                <th>GPS Latitude</th>
+                <th>Greater than 10Ha?</th>
+                <th>Actions</th>
+            </tr>
+            
+                {% if land_information_datas %}
+                    {% for land_information_data in land_information_datas %}
+                        <tr>
+                        <td>{{land_information_data.id}}</td>
+                        <td>{{land_information_data.province_id}}</td>
+                        <td>{{land_information_data.local_level_id}}</td>
+                        <td>{{land_information_data.ward_id}}</td>
+                        <td>{{land_information_data.kitta_number}}</td>
+                        <td>{{land_information_data.area}}</td>
+                        <td>{{land_information_data.gps_latitude}}</td>
+                        <td>{{land_information_data.gps_longitude}}</td>
+                        <td>{{land_information_data.is_greater_than_10Ha}}</td>
+                        <td>
+                            <a href="{%url 'main:land_information_edit' land_information_data.id%}">Edit</a>
+                            <a href="{%url 'main:land_information_delete' land_information_data.id%}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td> NA </td>
+                    <td> NA </td>
+                    <td> NA </td>
+                    <td> NA </td>
+                    <td> NA </td>
+                    <td> NA </td>
+                    <td> NA </td>
+                    <td> NA </td>
+                    <td> NA </td>
+                    </tr>
+                {% endif %}
+            
+        </table>
+    </section>
+    <section class="add">
+        <a href="{% url 'main:land_information_add'%}">Add Land Information</a>
+    </section>
+</body>
+</html>

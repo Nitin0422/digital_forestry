@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/accountinfo.css' %}">
+    <title>Account Information</title>  
+    
+</head>
+<body> 
+    {%if account_information %}
+        <div class="container">
+            <div class="card">
+                <p> <a href="{%url 'main:home'%}">← Go back</a></p>
+                <h2> Acount Information</h2>
+                <div class="card-content">
+                    <div class="info">
+                        <h4>Full Name:</h4>
+                        <p> {{account_information.full_name}}</p>
+                    </div>
+                    <div class="info">
+                        <h4>Address:</h4>
+                        <p> {{account_information.address}}</p>
+                    </div>
+                    <div class="info">
+                        <h4>Phone Number:</h4>
+                        <p> {{account_information.phone_number}}</p>
+                    </div>
+                    <div class="info">
+                        <h4>PAN:</h4>
+                        <p> {{account_information.PAN}}</p>
+                    </div>
+                </div>
+                <button class="alt-button"><a href="{% url 'main:edit_account_information'%}"> Edit account information</a></button>
+            </div>
+        </div>  
+    {% else %}
+        <div class="alt-container">
+            <h1> This account has no information recorded </h1>
+            <button class="alt-button"> <a href="{% url 'main:account_form'%}"> Add account information</a> </button>
+        </div>
+    {% endif %}
+</body>
+</html>
+
+
