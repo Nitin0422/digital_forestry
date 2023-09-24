@@ -15,5 +15,8 @@ urlpatterns = [
     path('home/land-information/add', views.land_information_add, name="land_information_add"),
     path('home/land-information/edit/<int:land_information_id>', views.land_information_edit, name="land_information_edit"),
     path('home/land-information/delete/<int:land_information_id>', views.land_information_delete, name="land_information_delete"),
-    path('home/strs/', views.strs_information_view, name="strs")
+    path('home/strs/', views.strs_information_view, name="strs_information"),
+    path('home/strs/form', views.strs_information_form, name="strs_form"),
+    path('home/strs/edit/<int:strs_information_id>/', views.strs_information_update, name="strs_information_update"),
+    path('home/strs/delete/<int:strs_information_id>/', views.strs_information_delete, name ="strs_information_delete"),
 ]

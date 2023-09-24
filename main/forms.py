@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import AccountInformation, LandInformation
+from .models import AccountInformation, LandInformation, STRSForestInformation
 
 
 User = get_user_model()
@@ -26,3 +26,7 @@ class LandInformationForm(forms.ModelForm):
         model = LandInformation
         fields = ('province', 'local_level', 'ward', 'kitta_number', 'area', 'gps_latitude', 'gps_longitude', 'is_greater_than_10Ha')
 
+class STRSForestInformationForm(forms.ModelForm):
+    class Meta:
+        model = STRSForestInformation
+        fields = ('tree_species', 'tree_type', 'tree_code', 'plantation_year', 'girth_cm', 'average_height')

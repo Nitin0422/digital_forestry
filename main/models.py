@@ -64,4 +64,26 @@ class LandInformation(models.Model):
     is_greater_than_10Ha = models.BooleanField(default=False) 
 
 
+class TreeSpecies(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+    
+class TreeType(models.TextChoices):
+    PLANTATION = 'Plantation'
+    NATURAL = 'Natural'
+
+class STRSForestInformation(models.Model):
+    tree_species = models.ForeignKey(TreeSpecies, on_delete = models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    tree_type = models.CharField(
+        max_length=30,
+        choices=TreeType.choices,
+        default= TreeType.PLANTATION
+    )
+    tree_code = models.CharField(max_length=200)
+    plantation_year = models.IntegerField()
+    girth_cm = models.FloatField()
+    average_height = models.FloatField()
 

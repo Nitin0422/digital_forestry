@@ -65,7 +65,11 @@
 <body>
     <form method = "POST">
         {% csrf_token %}
-        <a href="{%url 'main:land_information'%}">Cancel</a>
+        {% if source == "STRS" %}
+            <a href="{%url 'main:strs_information'%}">Cancel</a>
+        {% else %}
+            <a href="{%url 'main:land_information'%}">Cancel</a>
+        {% endif %}
         <button type="submit"> Confirm Delete</button>
 
     </form>

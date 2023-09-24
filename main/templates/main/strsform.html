@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> Account Information </title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    
+   </head>
+   <body>
+    <div class="container">
+      <div class="title">STRS Forest Information</div>
+      <div class="content">
+        <form method="POST">
+            {% csrf_token %}
+        <div class="user-details">
+            <div class="input-box">
+              <span class="details">Tree Species</span>
+              {{ form.tree_species }}
+              {% if form.tree_species.errors %}
+                <div class="error">{{ form.tree_species.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="input-box">
+              <span class="details">Tree Type</span>
+              {{ form.tree_type }}
+              {% if form.tree_type.errors %}
+                <div class="error">{{ form.tree_type.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="input-box">
+              <span class="details">Tree Code</span>
+              {{ form.tree_code }}
+              {% if form.tree_code.errors %}
+                <div class="error">{{ form.tree_code.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="input-box">
+                <span class="details">Plantation Year</span>
+                {{ form.plantation_year }}
+                {% if form.plantation_year.errors %}
+                  <div class="error">{{ form.plantation_year.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-box">
+                <span class="details">Girth (in cm)</span>
+                {{ form.girth_cm }}
+                {% if form.girth_cm.errors %}
+                  <div class="error">{{ form.girth_cm.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-box">
+                <span class="details">Average Height</span>
+                {{ form.average_height }}
+                {% if form.average_height.errors %}
+                  <div class="error">{{ form.average_height.errors }}</div>
+                {% endif %}
+            </div>
+          </div>
+          <div class="button">
+            <input type="submit" value="Add information">
+          </div>
+          <p> <a href="{%url 'main:strs_information'%}">← Go back</a></p>
+        </form>
+      </div>
+    </div>
+  </body>
+  
+</html>
