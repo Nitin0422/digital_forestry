@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, STRSForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .models import AccountInformation, LandInformation, STRSForestInformation
+from .models import AccountInformation, LandInformation, STRSForestInformation, Province, LocalLevel
 
 # Create your views here.
 def login_request(request):
@@ -123,7 +123,6 @@ def land_information_edit(request, land_information_id):
                 form.save()
                 return redirect("main:land_information")
         form = LandInformationForm(instance=land_information_instance)
-        print(form)
         return render(request, 'main/landedit.html', {"form":form})   
     except Exception as e:
         return render(request, "main/landinfo.html", {})
@@ -188,3 +187,9 @@ def strs_information_delete(request, strs_information_id):
         return render(request, "main/confirm.html", {"source": source})
     except Exception as e:
         return redirect("main:strs_information")
+    
+
+def load_local_level(request):
+    province_id = request.GET.get('province')
+    local_levels = LocalLevel.objects.filter(province_id = province_id)
+    return render(request, "main/local_level_dd.html", {"local_levels": local_levels})

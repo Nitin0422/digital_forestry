@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for local_level in local_levels %}
+<option value="{{ local_level.pk }}">{{ local_level.name }}</option>
+{% endfor %}

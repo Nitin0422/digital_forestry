@@ -33,7 +33,7 @@
     <div class="container">
       <div class="title">Land Information</div>
       <div class="content">
-        <form method="POST">
+        <form method="POST" id="landForm" local-level-data-url="{% url 'main:ajax_load_local_level' %}">
             {% csrf_token %}
         <div class="user-details">
             <div class="input-box">
@@ -100,6 +100,28 @@
         </form>
       </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      //call function for the change in value of HTML element with id "id_province"
+      $("#id_province").change(function(){
+        //get url of request for loading local_level
+        var url = $("#landForm").attr("local-level-data-url");
+        //get the id of province selected 
+        var province_id =$(this).val();
+
+        //Initialize an ajax request
+        $.ajax({
+          url:url,
+          data:{
+            'province':province_id
+          },
+          success: function(data){
+            console.log(data)
+            $("#id_local_level").html(data);
+          }
+        })
+      })
+    </script>
   </body>
   
 </html>
