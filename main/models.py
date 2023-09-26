@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
-from smart_selects.db_fields import ChainedForeignKey
+
 
 
 # Create your models here.
@@ -54,7 +54,7 @@ class Ward(models.Model):
     
 class LandInformation(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province,on_delete=models.CASCADE)
     local_level = models.ForeignKey(LocalLevel, on_delete=models.CASCADE)
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE)
     kitta_number = models.CharField(max_length=200)

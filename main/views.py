@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, STRSForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .models import AccountInformation, LandInformation, STRSForestInformation, Province, LocalLevel
+from .models import AccountInformation, LandInformation, STRSForestInformation, Ward, LocalLevel
 
 # Create your views here.
 def login_request(request):
@@ -109,7 +109,8 @@ def land_information_add(request):
             land_information_instance.user_id = request.user.id
             land_information_instance.save()
             return redirect("main:land_information")
-        
+        else:
+            print(form.errors)
     form = LandInformationForm()
     return render(request, "main/landinfoform.html", {"form":form})
 
@@ -123,8 +124,9 @@ def land_information_edit(request, land_information_id):
                 form.save()
                 return redirect("main:land_information")
         form = LandInformationForm(instance=land_information_instance)
-        return render(request, 'main/landedit.html', {"form":form})   
+        return render(request, 'main/landinfoform.html', {"form":form})   
     except Exception as e:
+        print(e)
         return render(request, "main/landinfo.html", {})
 
 @login_required(login_url="/")
@@ -193,3 +195,8 @@ def load_local_level(request):
     province_id = request.GET.get('province')
     local_levels = LocalLevel.objects.filter(province_id = province_id)
     return render(request, "main/local_level_dd.html", {"local_levels": local_levels})
+
+def load_ward(request):
+    local_level_id = request.GET.get('local_level')
+    wards = Ward.objects.filter(local_level_id = local_level_id)
+    return render(request, "main/ward_dd.html", {"wards": wards})

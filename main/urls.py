@@ -20,5 +20,6 @@ urlpatterns = [
     path('home/strs/edit/<int:strs_information_id>/', views.strs_information_update, name="strs_information_update"),
     path('home/strs/delete/<int:strs_information_id>/', views.strs_information_delete, name ="strs_information_delete"),
 
-    path('ajax/load_local_level/', views.load_local_level, name="ajax_load_local_level")
+    path('ajax/load_local_level/', views.load_local_level, name="ajax_load_local_level"),
+    path('ajax/load_ward',views.load_ward, name="ajax_load_ward")
 ]

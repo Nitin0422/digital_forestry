@@ -33,7 +33,7 @@
     <div class="container">
       <div class="title">Land Information</div>
       <div class="content">
-        <form method="POST" id="landForm" local-level-data-url="{% url 'main:ajax_load_local_level' %}">
+        <form method="POST" id="landForm" local-level-data-url="{% url 'main:ajax_load_local_level' %}" ward-data-url="{% url 'main:ajax_load_ward' %}">
             {% csrf_token %}
         <div class="user-details">
             <div class="input-box">
@@ -108,6 +108,7 @@
         var url = $("#landForm").attr("local-level-data-url");
         //get the id of province selected 
         var province_id =$(this).val();
+        console.log(province_id)
 
         //Initialize an ajax request
         $.ajax({
@@ -118,6 +119,21 @@
           success: function(data){
             console.log(data)
             $("#id_local_level").html(data);
+          }
+        })
+      })
+
+      $("#id_local_level").change(function(){
+        var url_ward = $("#landForm").attr("ward-data-url");
+        var local_level_id = $(this).val();
+
+        $.ajax({
+          url:url_ward,
+          data:{
+            'local_level':local_level_id
+          },
+          success: function(data){
+            $("#id_ward").html(data)
           }
         })
       })
