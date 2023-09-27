@@ -1,3 +1,4 @@
+{% extends "signups/base.html" %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -10,13 +11,23 @@
         
     </style>
 </head>
-<body>
-    <section>
-        <a href="{% url 'main:home'%}"> ← Go home</a>
-        <br>
-        <h2>Land Associated with {{user}}</h2>
-        <table>
-            <tr>
+{% block content %}
+  <body>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Land Information</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            class="table table-bordered"
+            id="dataTable"
+            width="100%"
+            cellspacing="0"
+          >
+            <thead>
+              <tr>
                 <th>Land id</th>
                 <th>Province</th>
                 <th>Local Level</th>
@@ -27,12 +38,14 @@
                 <th>GPS Latitude</th>
                 <th>Greater than 10Ha?</th>
                 <th>Actions</th>
-            </tr>
-            
-                {% if land_information_datas %}
-                    {% for land_information_data in land_information_datas %}
-                        <tr>
-                        <td>{{land_information_data.id}}</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% if land_information_datas %} 
+              {% for land_information_data in land_information_datas %}
+              <tr>
+                <td>{{land_information_data.id}}</td>
                         <td>{{land_information_data.province_id}}</td>
                         <td>{{land_information_data.local_level_id}}</td>
                         <td>{{land_information_data.ward_id}}</td>
@@ -41,31 +54,36 @@
                         <td>{{land_information_data.gps_latitude}}</td>
                         <td>{{land_information_data.gps_longitude}}</td>
                         <td>{{land_information_data.is_greater_than_10Ha}}</td>
-                        <td>
-                            <a href="{%url 'main:land_information_edit' land_information_data.id%}">Edit</a>
-                            <a href="{%url 'main:land_information_delete' land_information_data.id%}">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                <tr>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    <td> NA </td>
-                    </tr>
-                {% endif %}
-            
-        </table>
-    </section>
-    <section class="add">
-        <a href="{% url 'main:land_information_add'%}">Add Land Information</a>
-    </section>
-</body>
+                <td>
+                  <div class="border-0 mb-2 w-full btn-success text-center">
+                    <a> Edit </a>
+                  </div>
+
+                  <div class="border-0 mb-2 w-full btn-danger text-center">
+                    <a> Delete </a>
+                  </div>
+                </td>
+              </tr>
+
+              {% endfor %} 
+              {% else %}
+              <tr>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+  {% endblock %}
 </html>

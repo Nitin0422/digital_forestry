@@ -220,8 +220,8 @@
               data-parent="#accordionSidebar"
             >
               <div class="bg-white py-2 collapse-inner rounded">    
-                <a class="collapse-item" href="utilities-color.html">Register Land</a>
-                <a class="collapse-item" href="utilities-border.html">List Land</a>   
+                <a class="collapse-item" href="{%url 'main:land_information_add' %}">Register Land</a>
+                <a class="collapse-item" href="{%url 'main:land_information' %}">List Land</a>   
               </div>
             </div>
           </li>
@@ -328,11 +328,11 @@
                   aria-expanded="false"
                 >
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                    >Douglas McGee</span
+                    >{{user}}</span
                   >
                   <img
                     class="img-profile rounded-circle"
-                    src="img/undraw_profile.svg"
+                    src="{%static 'img/undraw_profile.svg'%}"
                   />
                 </a>
                 <!-- Dropdown - User Information -->
@@ -417,7 +417,7 @@
             >
               Cancel
             </button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="{%url 'main:logout'%}">Logout</a>
           </div>
         </div>
       </div>

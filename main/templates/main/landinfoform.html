@@ -1,143 +1,116 @@
+{% extends "signups/base.html" %}
 {% load static %}
 <!DOCTYPE html>
 <!-- Created By CodingLab - www.codinglabweb.com -->
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8">
-    <title> Account Information </title>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="stylesheet" href="{% static 'css/login.css' %}">
-        <style>
-            body{
-                padding: 25px;
-            }
-            .checkbox{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 0rem;
-                height: 50px;
-                padding-left: 70px;
-            }
-            .checkbox span{
-                width: 500px;
-                font-size: 18px;
-            }
-            .container{
-                height: auto;
-                margin-top: 100px;
-            }
-        </style>
-   </head>
-   <body>
-    <div class="container">
-      <div class="title">Land Information</div>
-      <div class="content">
-        <form method="POST" id="landForm" local-level-data-url="{% url 'main:ajax_load_local_level' %}" ward-data-url="{% url 'main:ajax_load_ward' %}">
-            {% csrf_token %}
-        <div class="user-details">
-            <div class="input-box">
-              <span class="details">Province</span>
+    <meta charset="UTF-8" />
+    <title>Account Information</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  {% block content %}
+  <body>
+    <div class="card m-5">
+      <div class="card-header font-weight-bold text-success border-bottom-dark">
+        Land Registration
+      </div>
+      <div class="content p-2">
+        <form
+          method="POST"
+          id="landForm"
+          local-level-data-url="{% url 'main:ajax_load_local_level' %}"
+          ward-data-url="{% url 'main:ajax_load_ward' %}"
+        >
+          {% csrf_token %}
+          <div class="mt-3">
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Province</span>
               {{ form.province }}
-              {% if form.province.errors %}
-                <div class="error">{{ form.province.errors }}</div>
-              {% endif %}
             </div>
-            <div class="input-box">
-              <span class="details">Local level</span>
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Local Level</span>
               {{ form.local_level }}
-              {% if form.local_level.errors %}
-                <div class="error">{{ form.local_level.errors }}</div>
-              {% endif %}
             </div>
-            <div class="input-box">
-              <span class="details">Ward</span>
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Ward</span>
               {{ form.ward }}
-              {% if form.ward.errors %}
-                <div class="error">{{ form.ward.errors }}</div>
-              {% endif %}
             </div>
-            <div class="input-box">
-                <span class="details">Kitta Number</span>
-                {{ form.kitta_number }}
-                {% if form.kitta_number.errors %}
-                  <div class="error">{{ form.kitta_number.errors }}</div>
-                {% endif %}
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Kitta Number</span>
+              {{ form.kitta_number }}
             </div>
-            <div class="input-box">
-                <span class="details">Area</span>
-                {{ form.area }}
-                {% if form.area.errors %}
-                  <div class="error">{{ form.area.errors }}</div>
-                {% endif %}
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Area</span>
+              {{ form.area }}
             </div>
-            <div class="input-box">
-                <span class="details">GPS Latitude</span>
-                {{ form.gps_latitude }}
-                {% if form.gps_latitude.errors %}
-                  <div class="error">{{ form.gps_latitude.errors }}</div>
-                {% endif %}
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">GPS Latitude</span>
+              {{ form.gps_latitude }}
             </div>
-            <div class="input-box">
-                <span class="details">GPS Longitude</span>
-                {{ form.gps_longitude }}
-                {% if form.gps_longitude.errors %}
-                  <div class="error">{{ form.gps_longitude.errors }}</div>
-                {% endif %}
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">GPS Longitude</span>
+              {{ form.gps_longitude }}
             </div>
-            <div class="input-box checkbox">
-                <span class="details">Is greater than 10Ha? </span>
-                {{ form.is_greater_than_10Ha }}
-                {% if form.is_greater_than_10Ha.errors %}
-                  <div class="error">{{ form.is_greater_than_10Ha.errors }}</div>
-                {% endif %}
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Is greater than 10Ha?</span>
+              {{ form.is_greater_than_10Ha }}
             </div>
           </div>
-          <div class="button">
-            <input type="submit" value="Add land information">
+          <div class="mb-3">
+            <input
+              type="submit"
+              value="Add information"
+              class="btn-success border-0 p-2 font-weight-bold"
+            />
           </div>
-          <p> <a href="{%url 'main:land_information'%}">← Go back</a></p>
+          <p>
+            <a
+              href="{%url 'main:home'%}"
+              class="text-dark btn-dark btn-circle text-gray-100"
+              ><i class="fa fa-home"></i
+            ></a>
+          </p>
         </form>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-      //call function for the change in value of HTML element with id "id_province"
-      $("#id_province").change(function(){
-        //get url of request for loading local_level
-        var url = $("#landForm").attr("local-level-data-url");
-        //get the id of province selected 
-        var province_id =$(this).val();
-        console.log(province_id)
 
-        //Initialize an ajax request
-        $.ajax({
-          url:url,
-          data:{
-            'province':province_id
-          },
-          success: function(data){
-            console.log(data)
-            $("#id_local_level").html(data);
-          }
-        })
-      })
+  <script src="{%static 'js/ajax.js'%}"></script>
+  <script>
+   //call function for the change in value of HTML element with id "id_province"
+   $("#id_province").change(function () {
+     //get url of request for loading local_level
+     var url = $("#landForm").attr("local-level-data-url");
+     //get the id of province selected
+     var province_id = $(this).val();
 
-      $("#id_local_level").change(function(){
-        var url_ward = $("#landForm").attr("ward-data-url");
-        var local_level_id = $(this).val();
+     //Initialize an ajax request
+     $.ajax({
+       url: url,
+       data: {
+         province: province_id,
+       },
+       success: function (data) {
+         $("#id_local_level").html(data);
+       },
+     });
+   });
 
-        $.ajax({
-          url:url_ward,
-          data:{
-            'local_level':local_level_id
-          },
-          success: function(data){
-            $("#id_ward").html(data)
-          }
-        })
-      })
-    </script>
+   $("#id_local_level").change(function () {
+     var url_ward = $("#landForm").attr("ward-data-url");
+     var local_level_id = $(this).val();
+
+     $.ajax({
+       url: url_ward,
+       data: {
+         local_level: local_level_id,
+       },
+       success: function (data) {
+         $("#id_ward").html(data);
+       },
+     });
+   });
+ </script>
   </body>
-  
+  {% endblock %}
+
 </html>
