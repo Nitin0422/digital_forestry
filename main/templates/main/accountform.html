@@ -1,3 +1,4 @@
+{% extends "signups/base.html"%}
 {% load static %}
 <!DOCTYPE html>
 <!-- Created By CodingLab - www.codinglabweb.com -->
@@ -9,49 +10,42 @@
      <link rel="stylesheet" href="{% static 'css/login.css' %}">
     
    </head>
+   {% block content %}
    <body>
-    <div class="container">
-      <div class="title">Account Information</div>
-      <div class="content">
+    <div class="card m-5">
+      <div class="card-header font-weight-bold text-success border-bottom-dark">Account Details</div>
+      <div class="content  p-2">
         <form method="POST">
             {% csrf_token %}
-        <div class="user-details">
-            <div class="input-box">
-              <span class="details">Full Name</span>
+        <div class="mt-3">
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Full Name</span>
               {{ form.full_name }}
-              {% if form.full_name.errors %}
-                <div class="error">{{ form.full_name.errors }}</div>
-              {% endif %}
             </div>
-            <div class="input-box">
-              <span class="details">Address</span>
+            <div class="input-box d-flex mb-4">
+              <span class="mr-3">Address</span>
               {{ form.address }}
-              {% if form.address.errors %}
-                <div class="error">{{ form.address.errors }}</div>
-              {% endif %}
             </div>
-            <div class="input-box">
-              <span class="details">Phone Number</span>
+            <div class="input-box d-flex mb-4 ">
+              <span class="mr-3">Phone Number</span>
               {{ form.phone_number }}
-              {% if form.phone_number.errors %}
-                <div class="error">{{ form.phone_number.errors }}</div>
-              {% endif %}
             </div>
-            <div class="input-box">
-                <span class="details">PAN</span>
+            <div class="input-box d-flex mb-4">
+                <span class="mr-3">PAN</span>
                 {{ form.PAN }}
-                {% if form.PAN.errors %}
-                  <div class="error">{{ form.PAN.errors }}</div>
-                {% endif %}
-              </div>
+            </div>
           </div>
-          <div class="button">
-            <input type="submit" value="Add information">
+          <div class="mb-3">
+            <input type="submit" value="Add information" class="btn-success border-0 p-2 font-weight-bold">
           </div>
-          <p> <a href="{%url 'main:home'%}">← Go home</a></p>
+          <div class="d-flex">
+            <p> <a href="{%url 'main:account_information'%}" class="text-dark btn-dark btn-circle  text-gray-100 mr-2"><i class="fa fa-chevron-left"></i></a></p>
+            <p> <a href="{%url 'main:home'%}" class="text-dark btn-dark btn-circle  text-gray-100"><i class="fa fa-home"></i></a></p>
+          </div>
         </form>
       </div>
     </div>
   </body>
+{% endblock %}
   
 </html>

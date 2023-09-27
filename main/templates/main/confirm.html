@@ -1,77 +1,32 @@
+{% extends "signups/base.html"%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins',sans-serif;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #3dc7c53f;
-            margin: 0;
-            padding: 0;
-            min-height: 90vh;
-        }
-        form{
-            height: 95vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            padding: 10px;
-            background-color: #9e120d;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            font-size: 20px;
-        }
-
-        a:hover {
-            background-color: #720a0a;
-        }
-
-        button{
-            background-color: #0d9e25;
-            color: white;
-            text-decoration: none;
-            margin-top: 20px;
-            display: block;
-            text-align: center;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 20px;
-        }
-        button:hover{
-            background-color: #0a722d;
-        }
-    </style>
     <title>Document</title>
 </head>
+{% block content %}
 <body>
-    <form method = "POST">
-        {% csrf_token %}
-        {% if source == "STRS" %}
-            <a href="{%url 'main:strs_information'%}">Cancel</a>
-        {% else %}
-            <a href="{%url 'main:land_information'%}">Cancel</a>
-        {% endif %}
-        <button type="submit"> Confirm Delete</button>
-
-    </form>
+    <div class=" d-flex justify-content-center align-items-center">
+        <form method = "POST" class=" card w-50 d-flex flex-column m-5 align-items-center">
+            <div class="card-header border-bottom-danger w-100 mb-3">
+                <p> Are you sure you want to delete this record?</p>
+            </div>
+            {% csrf_token %}
+            {% if source == "STRS" %}
+                <div class="btn-success m-3 p-2 d-flex justify-content-center w-50 ">
+                    <a href="{%url 'main:strs_information'%}" class="text-gray-100">Cancel</a>
+                </div>
+            {% else %}
+                <div class="btn-success m-3 p-2 d-flex justify-content-center w-50">
+                    <a href="{%url 'main:land_information'%}" class="text-gray-100">Cancel</a>
+                </div>
+            {% endif %}
+            <button type="submit" class="btn-danger m-3 p-2 text-gray-100 border-0 w-50 "> Confirm Delete</button>
+    
+        </form>
+    </div>
 </body>
+{% endblock %}
 </html>

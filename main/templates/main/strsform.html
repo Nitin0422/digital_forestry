@@ -46,8 +46,11 @@
           <div class="mb-3">
             <input type="submit" value="Add information" class="btn-success border-0 p-2 font-weight-bold">
           </div>
-          <p> <a href="{%url 'main:home'%}" class="text-dark btn-dark btn-circle  text-gray-100"><i class="fa fa-home"></i></a></p>
-        </form>
+          <div class="d-flex">
+            <p> <a href="{%url 'main:strs_information'%}" class="text-dark btn-dark btn-circle  text-gray-100 mr-2"><i class="fa fa-chevron-left"></i></a></p>
+            <p> <a href="{%url 'main:home'%}" class="text-dark btn-dark btn-circle  text-gray-100"><i class="fa fa-home"></i></a></p>
+          </div>
+         </form>
       </div>
     </div>
   </body>

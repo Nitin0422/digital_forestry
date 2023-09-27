@@ -85,7 +85,7 @@ def edit_account_information(request):
                 form.save()
                 return redirect('main:account_information')
         form = AccountInformationForm(instance=account_instance)
-        return render(request, 'main/accountedit.html', {"form":form})
+        return render(request, 'main/accountform.html', {"form":form})
     except Exception as e:
         return redirect('main:home')
 

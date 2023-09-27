@@ -21,7 +21,7 @@
             align-items: center;
             padding: 10px;
             background-size: cover;
-            background: linear-gradient(#a4ffde, #fff);
+            background: linear-gradient(#fff, #a4ffde);
         }
         .container{
             max-width: 500px;
@@ -29,7 +29,7 @@
             padding: 25px 30px;
             border-radius: 5px;
             box-shadow: 0 5px 10px rgba(0,0,0,0.15);
-            background-color: #ffffff76;
+            background-color: #ffffff78;
         }
         .container .title{
             font-size: 25px;

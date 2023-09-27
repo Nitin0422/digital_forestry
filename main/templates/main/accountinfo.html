@@ -37,7 +37,7 @@
                         <p>{{account_information.PAN}}</p>
                     </div>
                     <div class="edit btn-success d-flex justify-content-center p-2">
-                        <a class="font-weight-bold text-gray-100">Edit information</a>
+                        <a class="font-weight-bold text-gray-100" href="{%url 'main:edit_account_information'%}">Edit information</a>
                     </div>
 
 
@@ -45,7 +45,10 @@
                 </div>
                 {% else %}
                 <div class="card-body">
-                    No info
+                    <h6 class="p-3"> No account details has been registered yet! </h6>
+                    <div class="edit btn-success d-flex justify-content-center p-2">
+                        <a class="font-weight-bold text-gray-100" href="{%url 'main:account_form'%}">Add information</a>
+                    </div>
                 </div>
                 {% endif %}
             </div>
