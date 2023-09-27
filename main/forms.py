@@ -51,10 +51,6 @@ class LandInformationForm(forms.ModelForm):
         elif self.instance.pk:
             self.fields['local_level'].queryset = LocalLevel.objects.filter(province_id=self.instance.province_id).order_by('name')
 
-        
-        
-
-
 class STRSForestInformationForm(forms.ModelForm):
     class Meta:
         model = STRSForestInformation
