@@ -6,44 +6,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/accountinfo.css' %}">
     <title>Account Information</title>  
     
 </head>
 {% block content %}
 <body> 
-    {%if account_information %}
-        <div class="container">
-            <div class="card">
-                <p> <a href="{%url 'main:home'%}">← Go back</a></p>
-                <h2> Acount Information</h2>
-                <div class="card-content">
-                    <div class="info">
-                        <h4>Full Name:</h4>
-                        <p> {{account_information.full_name}}</p>
-                    </div>
-                    <div class="info">
-                        <h4>Address:</h4>
-                        <p> {{account_information.address}}</p>
-                    </div>
-                    <div class="info">
-                        <h4>Phone Number:</h4>
-                        <p> {{account_information.phone_number}}</p>
-                    </div>
-                    <div class="info">
-                        <h4>PAN:</h4>
-                        <p> {{account_information.PAN}}</p>
-                    </div>
+    
+       <!-- Default Card Example -->
+       <div class="p-5 d-flex justify-content-center">
+            <div class="card shadow w-50">
+                <div class="card-header font-weight-bold text-success">
+                    Account Information
                 </div>
-                <button class="alt-button"><a href="{% url 'main:edit_account_information'%}"> Edit account information</a></button>
+                {%if account_information %}
+                <div class="card-body">
+                    <div class="d-flex">
+                        <p class="font-weight-bold mr-2">Full Name: </p>
+                        <p>{{account_information.full_name}}</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold mr-2">Address: </p>
+                        <p>{{account_information.address}}</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold mr-2">Phone Number: </p>
+                        <p>{{account_information.phone_number}}</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="font-weight-bold mr-2">PAN: </p>
+                        <p>{{account_information.PAN}}</p>
+                    </div>
+                    <div class="edit btn-success d-flex justify-content-center p-2">
+                        <a class="font-weight-bold text-gray-100">Edit information</a>
+                    </div>
+
+
+                    </button>
+                </div>
+                {% else %}
+                <div class="card-body">
+                    No info
+                </div>
+                {% endif %}
             </div>
-        </div>  
-    {% else %}
-        <div class="alt-container">
-            <h1> This account has no information recorded </h1>
-            <button class="alt-button"> <a href="{% url 'main:account_form'%}"> Add account information</a> </button>
-        </div>
-    {% endif %}
+       </div>
+       
+    
 </body>
 {% endblock %}
 </html>
