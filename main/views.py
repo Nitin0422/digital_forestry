@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.http import HttpResponse
 from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, STRSForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout

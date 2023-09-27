@@ -25,11 +25,12 @@ class LandInformationForm(forms.ModelForm):
     class Meta:
         model = LandInformation
         fields = ('province', 'local_level', 'ward', 'kitta_number', 'area', 'gps_latitude', 'gps_longitude', 'is_greater_than_10Ha')
-
+        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['local_level'].queryset = LocalLevel.objects.none()
         self.fields['ward'].queryset = Ward.objects.none()
+        
         
         if 'local_level' in self.data:
             try:
@@ -50,10 +51,6 @@ class LandInformationForm(forms.ModelForm):
                 pass
         elif self.instance.pk:
             self.fields['local_level'].queryset = LocalLevel.objects.filter(province_id=self.instance.province_id).order_by('name')
-
-        
-        
-
 
 class STRSForestInformationForm(forms.ModelForm):
     class Meta:
