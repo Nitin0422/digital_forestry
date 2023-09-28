@@ -1,0 +1,94 @@
+{% extends "signups/base.html" %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="{% static 'css/landinfo.css' %}"> -->
+    <title>Your Web Page</title>
+    <link type="stylesheet" href="{%static 'css/home.css'%}"
+    <style></style>
+  </head>
+  {% block content %}
+  <body>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-success">Urban Trees List</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            class="table table-bordered"
+            id="dataTable"
+            width="100%"
+            cellspacing="0"
+          >
+            <thead>
+              <tr>
+                <th>Seed Tree ID</th>
+                <th>Tree Code</th>
+                <th>Plantation Year</th>
+                <th>Land ID</th>
+                <th>Girth (in cm)</th>
+                <th>Tree Species ID</th>
+                <th>Average Height</th>
+                <th>Tree Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% if forest_information_datas %} 
+              {% for forest_information_data in forest_information_datas %}
+              <tr>
+                <td>{{forest_information_data.id}}</td>
+                <td>{{forest_information_data.tree_code}}</td>
+                <td>{{forest_information_data.plantation_year}}</td>
+                <td>{{forest_information_data.land_id}}</td>
+                <td>{{forest_information_data.girth_cm}}</td>
+                <td>{{forest_information_data.tree_species_id}}</td>
+                <td>{{forest_information_data.average_height}}</td>
+                <td>{{forest_information_data.tree_type}}</td>
+                <td>
+                  <div class="border-0 mb-2 w-full btn-success text-center">
+                    <a href="{%url 'main:strs_information_update' strs_information_data.id%}" class="text-gray-100"> Edit </a>
+                  </div>
+
+                  <div class="border-0 mb-2 w-full btn-danger text-center">
+                    <a href="{%url 'main:strs_information_delete' strs_information_data.id %}" class="text-gray-100"> Delete </a>
+                  </div>
+                </td>
+              </tr>
+
+              {% endfor %} 
+              {% else %}
+              <tr>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+  {% endblock %}
+
+</html>
+
+
+
+
+
+
+
+

@@ -273,3 +273,17 @@ def uprs_add(request):
     form = UrbanParkTreesForestInformationForm(user_id = request.user.id)
     return render(request, 'main/uprsform.html', {"form": form})
     
+@login_required(login_url='/')
+def uprs_view(request):
+    try:
+        user_id = request.user.id
+        forest_information_datas = []
+        land_instances = get_list_or_404(LandInformation, user_id= user_id)
+        for land_instance in land_instances:
+            forest_instance = get_object_or_404(UrbanParkTreesModel, land_id = land_instance.id)
+            forest_information_datas.append(forest_instance)
+        return render(request, "main/uprsview.html", {"forest_information_datas":forest_information_datas})
+    except Exception as e:
+        print(e)
+        forest_information_datas = None
+        return render(request, "main/uprsview.html", {"forest_information_datas":forest_information_datas})

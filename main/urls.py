@@ -25,5 +25,6 @@ urlpatterns = [
     path('home/etrs/view', views.etrs_view, name='etrs_view'),
     path('home/etrs/update/<int:etrs_information_id>', views.etrs_update, name="etrs_update"),
     path('home/etrs/delete/<int:etrs_information_id>', views.etrs_update, name='etrs_delete'),
-    path('home/uprs/add', views.uprs_add, name='uprs_add')
+    path('home/uprs/add', views.uprs_add, name='uprs_add'),
+    path('home/uprs/view', views.uprs_view, name="uprs_view")
 ]
