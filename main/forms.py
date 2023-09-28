@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import AccountInformation, LandInformation, SeedTreeForestInformation, LocalLevel, Ward
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, LocalLevel, Ward, ElectronicTreesModel
 
 
 User = get_user_model()
@@ -57,14 +57,23 @@ class SeedTreeForestInformationForm(forms.ModelForm):
         model = SeedTreeForestInformation
         fields = ('tree_species', 'land', 'tree_type', 'tree_code', 'plantation_year', 'girth_cm', 'average_height')
 
-    def __init__(self, user, *args, **kwargs):
-        print("overidden successfully")
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user_id', None)  # Pop the 'user' keyword argument with a default value of None
         super().__init__(*args, **kwargs)
-        # user = kwargs.pop('user', None)  # Use pop with default value to avoid KeyError
-        print("The user id is: ", user)
-            
         if user:
             self.fields['land'].queryset = LandInformation.objects.filter(user_id=user)
         else:
             self.fields['land'].queryset = LandInformation.objects.none()
 
+class ElectronicTreeForestInformationForm(forms.ModelForm):
+    class Meta:
+        model = ElectronicTreesModel
+        fields = ('tree_species', 'land', 'tree_type', 'tree_code', 'plantation_year', 'girth_cm', 'average_height', 'vol_meter_cube', 'carbon_content_analysis')
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user_id', None)  # Pop the 'user' keyword argument with a default value of None
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['land'].queryset = LandInformation.objects.filter(user_id=user)
+        else:
+            self.fields['land'].queryset = LandInformation.objects.none()

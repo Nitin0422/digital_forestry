@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm
+from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm, ElectronicTreeForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel, ElectronicTreesModel
 
 # Create your views here.
 def login_request(request):
@@ -142,36 +142,44 @@ def land_information_delete(request, land_information_id):
 @login_required(login_url="/")
 def strs_information_view(request):
     try:
-        strs_information_datas = get_list_or_404(SeedTreeForestInformation, user_id = request.user.id)
+        user_id = request.user.id
+        strs_information_datas = []
+        land_instances = get_list_or_404(LandInformation, user_id= user_id)
+        for land_instance in land_instances:
+            forest_instance = get_object_or_404(SeedTreeForestInformation, land_id = land_instance.id)
+            strs_information_datas.append(forest_instance)
+        # strs_information_datas = get_list_or_404(SeedTreeForestInformation, user_id = request.user.id)
         return render(request, "main/strsview.html", {"strs_information_datas":strs_information_datas})
     except Exception as e:
+        print(e)
         strs_information_datas = None
         return render(request, "main/strsview.html", {"strs_information_datas":strs_information_datas})
 
 @login_required(login_url="/")
 def strs_information_form(request):
     user = request.user.id
+    print("User id from views is ", user)
     if request.method == "POST":
-        form = SeedTreeForestInformationForm(request.POST, user = user)
+        form = SeedTreeForestInformationForm(request.POST, user_id = user)  
         if form.is_valid():
-            forest_information = form.save(commit=False)
-            forest_information.save()
+            form.save()
             return redirect('main:strs_information')
-    form = SeedTreeForestInformationForm(user = user)
+    form = SeedTreeForestInformationForm(user_id = user)
     return render(request, "main/strsform.html", {"form": form})
 
 @login_required(login_url="/")
 def strs_information_update(request, strs_information_id):
     try:
+        user = request.user.id
         print(strs_information_id)
         strs_information_instance = get_object_or_404(SeedTreeForestInformation, pk = strs_information_id)
         if request.method == "POST":
-            form = SeedTreeForestInformationForm(request.POST, instance=strs_information_instance)
+            form = SeedTreeForestInformationForm(request.POST, instance=strs_information_instance, user_id = user)
             if form.is_valid():
                 form.save()
                 return redirect('main:strs_information')
         
-        form = SeedTreeForestInformationForm(instance=strs_information_instance)
+        form = SeedTreeForestInformationForm(instance=strs_information_instance, user_id = user)
         return render(request, "main/strsform.html", {"form":form})
     except Exception as e:
         print(e)
@@ -199,3 +207,58 @@ def load_ward(request):
     local_level_id = request.GET.get('local_level')
     wards = Ward.objects.filter(local_level_id = local_level_id)
     return render(request, "main/ward_dd.html", {"wards": wards})
+
+@login_required(login_url='/')
+def etrs_add(request):
+    if request.method == 'POST':
+        form = ElectronicTreeForestInformationForm(request.POST, user_id = request.user.id)
+        if form.is_valid():
+            form.save()
+            return redirect('main:home')
+    form = ElectronicTreeForestInformationForm(user_id = request.user.id)
+    return render(request, 'main/etrsform.html', {"form": form})
+
+@login_required(login_url="/")
+def etrs_view(request):
+    try:
+        user_id = request.user.id
+        forest_information_datas = []
+        land_instances = get_list_or_404(LandInformation, user_id= user_id)
+        for land_instance in land_instances:
+            forest_instance = get_object_or_404(ElectronicTreesModel, land_id = land_instance.id)
+            forest_information_datas.append(forest_instance)
+        return render(request, "main/etrsview.html", {"forest_information_datas":forest_information_datas})
+    except Exception as e:
+        print(e)
+        forest_information_datas = None
+        return render(request, "main/etrsview.html", {"forest_information_datas":forest_information_datas})
+    
+@login_required(login_url='/')
+def etrs_update(request, etrs_information_id):
+    try:
+        user = request.user.id
+        print(etrs_information_id)
+        etrs_information_instance = get_object_or_404(ElectronicTreesModel, pk = etrs_information_id)
+        if request.method == "POST":
+            form = ElectronicTreeForestInformationForm(request.POST, instance=etrs_information_instance, user_id = user)
+            if form.is_valid():
+                form.save()
+                return redirect('main:etrs_view')
+        
+        form = ElectronicTreeForestInformationForm(instance=etrs_information_instance, user_id = user)
+        return render(request, "main/etrsform.html", {"form":form})
+    except Exception as e:
+        print(e)
+        return redirect('main:etrs_view')
+
+@login_required(login_url="/")
+def etrs_delete(request, etrs_information_id):
+    try:
+        etrs_information_instance = get_object_or_404(ElectronicTreeForestInformationForm, pk = etrs_information_id)
+        source = "ETRS"
+        if request.method == "POST":
+            etrs_information_instance.delete()
+            return redirect("main:etrs_view")
+        return render(request, "main/confirm.html", {"source": source})
+    except Exception as e:
+        return redirect("main:etrs_information")

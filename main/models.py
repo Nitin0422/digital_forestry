@@ -78,8 +78,9 @@ class TreeType(models.TextChoices):
     NATURAL = 'Natural'
 
 class SeedTreeForestInformation(models.Model):
+    id = models.AutoField(primary_key=True)
     tree_species = models.ForeignKey(TreeSpecies, on_delete = models.CASCADE)
-    land = models.OneToOneField(LandInformation, on_delete=models.CASCADE, default= 0)
+    land = models.ForeignKey(LandInformation, on_delete=models.CASCADE, default= 0)
     tree_type = models.CharField(
         max_length=30,
         choices=TreeType.choices,
@@ -90,6 +91,16 @@ class SeedTreeForestInformation(models.Model):
     girth_cm = models.FloatField()
     average_height = models.FloatField()
 
+class ElectronicTreesModel(models.Model):
+    tree_species = models.ForeignKey(TreeSpecies, on_delete=models.CASCADE)
+    land = models.OneToOneField(LandInformation, on_delete=models.CASCADE, default= 0)
+    tree_type = models.CharField(max_length=30, choices=TreeType.choices, default=TreeType.PLANTATION)
+    tree_code = models.CharField(max_length=200)
+    plantation_year = models.IntegerField()
+    girth_cm = models.FloatField()
+    average_height = models.FloatField()
+    vol_meter_cube = models.FloatField()
+    carbon_content_analysis = models.TextField()
 
 
 
