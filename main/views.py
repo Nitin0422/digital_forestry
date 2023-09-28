@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm, ElectronicTreeForestInformationForm
+from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm, ElectronicTreeForestInformationForm, UrbanParkTreesForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel, ElectronicTreesModel
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel, ElectronicTreesModel, UrbanParkTreesModel
 
 # Create your views here.
 def login_request(request):
@@ -254,11 +254,66 @@ def etrs_update(request, etrs_information_id):
 @login_required(login_url="/")
 def etrs_delete(request, etrs_information_id):
     try:
-        etrs_information_instance = get_object_or_404(ElectronicTreeForestInformationForm, pk = etrs_information_id)
+        etrs_information_instance = get_object_or_404(ElectronicTreesModel, pk = etrs_information_id)
         source = "ETRS"
         if request.method == "POST":
             etrs_information_instance.delete()
             return redirect("main:etrs_view")
         return render(request, "main/confirm.html", {"source": source})
     except Exception as e:
-        return redirect("main:etrs_information")
+        return redirect("main:etrs_view")
+    
+@login_required(login_url='/')
+def uprs_add(request):
+    if request.method == 'POST':
+        form = UrbanParkTreesForestInformationForm(request.POST, user_id = request.user.id)
+        if form.is_valid():
+            form.save()
+            return redirect('main:home')
+    form = UrbanParkTreesForestInformationForm(user_id = request.user.id)
+    return render(request, 'main/uprsform.html', {"form": form})
+    
+@login_required(login_url='/')
+def uprs_view(request):
+    try:
+        user_id = request.user.id
+        forest_information_datas = []
+        land_instances = get_list_or_404(LandInformation, user_id= user_id)
+        for land_instance in land_instances:
+            forest_instance = get_object_or_404(UrbanParkTreesModel, land_id = land_instance.id)
+            forest_information_datas.append(forest_instance)
+        return render(request, "main/uprsview.html", {"forest_information_datas":forest_information_datas})
+    except Exception as e:
+        print(e)
+        forest_information_datas = None
+        return render(request, "main/uprsview.html", {"forest_information_datas":forest_information_datas})
+
+@login_required(login_url='/')
+def uprs_update(request, uprs_information_id):
+    try:
+        user = request.user.id
+        print(uprs_information_id)
+        uprs_information_instance = get_object_or_404(UrbanParkTreesModel, pk = uprs_information_id)
+        if request.method == "POST":
+            form = UrbanParkTreesForestInformationForm(request.POST, instance=uprs_information_instance, user_id = user)
+            if form.is_valid():
+                form.save()
+                return redirect('main:uprs_view')
+        
+        form = UrbanParkTreesForestInformationForm(instance=uprs_information_instance, user_id = user)
+        return render(request, "main/uprsform.html", {"form":form})
+    except Exception as e:
+        print(e)
+        return redirect('main:uprs_view')
+    
+@login_required(login_url="/")
+def uprs_delete(request, uprs_information_id):
+    try:
+        uprs_information_instance = get_object_or_404(UrbanParkTreesModel, pk = uprs_information_id)
+        source = "UPRS"
+        if request.method == "POST":
+            uprs_information_instance.delete()
+            return redirect("main:uprs_view")
+        return render(request, "main/confirm.html", {"source": source})
+    except Exception as e:
+        return redirect("main:uprs_view")

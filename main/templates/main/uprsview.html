@@ -14,7 +14,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-success">Electronic Trees List</h6>
+        <h6 class="m-0 font-weight-bold text-success">Urban Trees List</h6>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -26,7 +26,7 @@
           >
             <thead>
               <tr>
-                <th>Electronic Tree ID</th>
+                <th>Urban Tree ID</th>
                 <th>Tree Code</th>
                 <th>Plantation Year</th>
                 <th>Land ID</th>
@@ -34,8 +34,6 @@
                 <th>Tree Species ID</th>
                 <th>Average Height</th>
                 <th>Tree Type</th>
-                <th>Volume Meter Cube</th>
-                <th>Carbon Content Analysis</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -52,15 +50,13 @@
                 <td>{{forest_information_data.tree_species_id}}</td>
                 <td>{{forest_information_data.average_height}}</td>
                 <td>{{forest_information_data.tree_type}}</td>
-                <td>{{forest_information_data.vol_meter_cube}}</td>
-                <td>{{forest_information_data.carbon_content_analysis}}</td>
                 <td>
                   <div class="border-0 mb-2 w-full btn-success text-center">
-                    <a href="{%url 'main:etrs_update' forest_information_data.id%}" class="text-gray-100"> Edit </a>
+                    <a href="{%url 'main:uprs_update' forest_information_data.id%}" class="text-gray-100"> Edit </a>
                   </div>
 
                   <div class="border-0 mb-2 w-full btn-danger text-center">
-                    <a href="{%url 'main:etrs_delete' forest_information_data.id %}" class="text-gray-100"> Delete </a>
+                    <a href="{%url 'main:uprs_delete' forest_information_data.id%}" class="text-gray-100"> Delete </a>
                   </div>
                 </td>
               </tr>
@@ -68,8 +64,6 @@
               {% endfor %} 
               {% else %}
               <tr>
-                <td>NA</td>
-                <td>NA</td>
                 <td>NA</td>
                 <td>NA</td>
                 <td>NA</td>
@@ -88,6 +82,7 @@
     </div>
   </body>
   {% endblock %}
+
 </html>
 
 
