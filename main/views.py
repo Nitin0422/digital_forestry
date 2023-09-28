@@ -254,14 +254,14 @@ def etrs_update(request, etrs_information_id):
 @login_required(login_url="/")
 def etrs_delete(request, etrs_information_id):
     try:
-        etrs_information_instance = get_object_or_404(ElectronicTreeForestInformationForm, pk = etrs_information_id)
+        etrs_information_instance = get_object_or_404(ElectronicTreesModel, pk = etrs_information_id)
         source = "ETRS"
         if request.method == "POST":
             etrs_information_instance.delete()
             return redirect("main:etrs_view")
         return render(request, "main/confirm.html", {"source": source})
     except Exception as e:
-        return redirect("main:etrs_information")
+        return redirect("main:etrs_view")
     
 @login_required(login_url='/')
 def uprs_add(request):
@@ -287,3 +287,33 @@ def uprs_view(request):
         print(e)
         forest_information_datas = None
         return render(request, "main/uprsview.html", {"forest_information_datas":forest_information_datas})
+
+@login_required(login_url='/')
+def uprs_update(request, uprs_information_id):
+    try:
+        user = request.user.id
+        print(uprs_information_id)
+        uprs_information_instance = get_object_or_404(UrbanParkTreesModel, pk = uprs_information_id)
+        if request.method == "POST":
+            form = UrbanParkTreesForestInformationForm(request.POST, instance=uprs_information_instance, user_id = user)
+            if form.is_valid():
+                form.save()
+                return redirect('main:uprs_view')
+        
+        form = UrbanParkTreesForestInformationForm(instance=uprs_information_instance, user_id = user)
+        return render(request, "main/uprsform.html", {"form":form})
+    except Exception as e:
+        print(e)
+        return redirect('main:uprs_view')
+    
+@login_required(login_url="/")
+def uprs_delete(request, uprs_information_id):
+    try:
+        uprs_information_instance = get_object_or_404(UrbanParkTreesModel, pk = uprs_information_id)
+        source = "UPRS"
+        if request.method == "POST":
+            uprs_information_instance.delete()
+            return redirect("main:uprs_view")
+        return render(request, "main/confirm.html", {"source": source})
+    except Exception as e:
+        return redirect("main:uprs_view")

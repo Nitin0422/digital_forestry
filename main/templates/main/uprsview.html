@@ -26,7 +26,7 @@
           >
             <thead>
               <tr>
-                <th>Seed Tree ID</th>
+                <th>Urban Tree ID</th>
                 <th>Tree Code</th>
                 <th>Plantation Year</th>
                 <th>Land ID</th>
@@ -52,11 +52,11 @@
                 <td>{{forest_information_data.tree_type}}</td>
                 <td>
                   <div class="border-0 mb-2 w-full btn-success text-center">
-                    <a href="{%url 'main:strs_information_update' strs_information_data.id%}" class="text-gray-100"> Edit </a>
+                    <a href="{%url 'main:uprs_update' forest_information_data.id%}" class="text-gray-100"> Edit </a>
                   </div>
 
                   <div class="border-0 mb-2 w-full btn-danger text-center">
-                    <a href="{%url 'main:strs_information_delete' strs_information_data.id %}" class="text-gray-100"> Delete </a>
+                    <a href="{%url 'main:uprs_delete' forest_information_data.id%}" class="text-gray-100"> Delete </a>
                   </div>
                 </td>
               </tr>
