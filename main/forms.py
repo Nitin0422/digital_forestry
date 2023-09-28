@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import AccountInformation, LandInformation, STRSForestInformation, LocalLevel, Ward
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, LocalLevel, Ward
 
 
 User = get_user_model()
@@ -52,7 +52,19 @@ class LandInformationForm(forms.ModelForm):
         elif self.instance.pk:
             self.fields['local_level'].queryset = LocalLevel.objects.filter(province_id=self.instance.province_id).order_by('name')
 
-class STRSForestInformationForm(forms.ModelForm):
+class SeedTreeForestInformationForm(forms.ModelForm):
     class Meta:
-        model = STRSForestInformation
-        fields = ('tree_species', 'tree_type', 'tree_code', 'plantation_year', 'girth_cm', 'average_height')
+        model = SeedTreeForestInformation
+        fields = ('tree_species', 'land', 'tree_type', 'tree_code', 'plantation_year', 'girth_cm', 'average_height')
+
+    def __init__(self, user, *args, **kwargs):
+        print("overidden successfully")
+        super().__init__(*args, **kwargs)
+        # user = kwargs.pop('user', None)  # Use pop with default value to avoid KeyError
+        print("The user id is: ", user)
+            
+        if user:
+            self.fields['land'].queryset = LandInformation.objects.filter(user_id=user)
+        else:
+            self.fields['land'].queryset = LandInformation.objects.none()
+

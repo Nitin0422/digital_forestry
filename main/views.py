@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, STRSForestInformationForm
+from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .models import AccountInformation, LandInformation, STRSForestInformation, Ward, LocalLevel
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel
 
 # Create your views here.
 def login_request(request):
@@ -142,7 +142,7 @@ def land_information_delete(request, land_information_id):
 @login_required(login_url="/")
 def strs_information_view(request):
     try:
-        strs_information_datas = get_list_or_404(STRSForestInformation, user_id = request.user.id)
+        strs_information_datas = get_list_or_404(SeedTreeForestInformation, user_id = request.user.id)
         return render(request, "main/strsview.html", {"strs_information_datas":strs_information_datas})
     except Exception as e:
         strs_information_datas = None
@@ -150,28 +150,28 @@ def strs_information_view(request):
 
 @login_required(login_url="/")
 def strs_information_form(request):
+    user = request.user.id
     if request.method == "POST":
-        form = STRSForestInformationForm(request.POST)
+        form = SeedTreeForestInformationForm(request.POST, user = user)
         if form.is_valid():
             forest_information = form.save(commit=False)
-            forest_information.user_id = request.user.id
             forest_information.save()
             return redirect('main:strs_information')
-    form = STRSForestInformationForm()
+    form = SeedTreeForestInformationForm(user = user)
     return render(request, "main/strsform.html", {"form": form})
 
 @login_required(login_url="/")
 def strs_information_update(request, strs_information_id):
     try:
         print(strs_information_id)
-        strs_information_instance = get_object_or_404(STRSForestInformation, pk = strs_information_id)
+        strs_information_instance = get_object_or_404(SeedTreeForestInformation, pk = strs_information_id)
         if request.method == "POST":
-            form = STRSForestInformationForm(request.POST, instance=strs_information_instance)
+            form = SeedTreeForestInformationForm(request.POST, instance=strs_information_instance)
             if form.is_valid():
                 form.save()
                 return redirect('main:strs_information')
         
-        form = STRSForestInformationForm(instance=strs_information_instance)
+        form = SeedTreeForestInformationForm(instance=strs_information_instance)
         return render(request, "main/strsform.html", {"form":form})
     except Exception as e:
         print(e)
@@ -180,7 +180,7 @@ def strs_information_update(request, strs_information_id):
 @login_required(login_url="/")
 def strs_information_delete(request, strs_information_id):
     try:
-        strs_information_instance = get_object_or_404(STRSForestInformation, pk = strs_information_id)
+        strs_information_instance = get_object_or_404(SeedTreeForestInformation, pk = strs_information_id)
         source = "STRS"
         if request.method == "POST":
             strs_information_instance.delete()

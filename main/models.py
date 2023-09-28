@@ -63,6 +63,9 @@ class LandInformation(models.Model):
     gps_latitude = models.FloatField()
     is_greater_than_10Ha = models.BooleanField(default=False) 
 
+    def __str__(self):
+        return str(self.id)
+
 
 class TreeSpecies(models.Model):
     name = models.CharField(max_length=200)
@@ -74,9 +77,9 @@ class TreeType(models.TextChoices):
     PLANTATION = 'Plantation'
     NATURAL = 'Natural'
 
-class STRSForestInformation(models.Model):
+class SeedTreeForestInformation(models.Model):
     tree_species = models.ForeignKey(TreeSpecies, on_delete = models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    land = models.OneToOneField(LandInformation, on_delete=models.CASCADE, default= 0)
     tree_type = models.CharField(
         max_length=30,
         choices=TreeType.choices,
@@ -86,4 +89,7 @@ class STRSForestInformation(models.Model):
     plantation_year = models.IntegerField()
     girth_cm = models.FloatField()
     average_height = models.FloatField()
+
+
+
 
