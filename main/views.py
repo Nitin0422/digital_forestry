@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm, ElectronicTreeForestInformationForm
+from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm, ElectronicTreeForestInformationForm, UrbanParkTreesForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel, ElectronicTreesModel
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel, ElectronicTreesModel, UrbanParkTreesModel
 
 # Create your views here.
 def login_request(request):
@@ -262,4 +262,14 @@ def etrs_delete(request, etrs_information_id):
         return render(request, "main/confirm.html", {"source": source})
     except Exception as e:
         return redirect("main:etrs_information")
+    
+@login_required(login_url='/')
+def uprs_add(request):
+    if request.method == 'POST':
+        form = UrbanParkTreesForestInformationForm(request.POST, user_id = request.user.id)
+        if form.is_valid():
+            form.save()
+            return redirect('main:home')
+    form = UrbanParkTreesForestInformationForm(user_id = request.user.id)
+    return render(request, 'main/uprsform.html', {"form": form})
     
