@@ -1,7 +1,14 @@
 {% extends "signups/base.html" %}
 {% block content %}
 <div>
-    <h1> Welcome {{user}}</h1>
+    <div class="card m-4">
+        <div class="card-header text-success">
+            Welcome {{user}}
+        </div>
+        <div class="card-body">
+            Use the side-nav to get what you're looking for!
+        </div>
+    </div>
 </div>
 
 {% endblock %}

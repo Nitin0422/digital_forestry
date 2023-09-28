@@ -64,6 +64,9 @@ nav,
 section {
   display: block;
 }
+.content-wrapper{
+ 
+}
 body {
   margin: 0;
   font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -359,6 +362,9 @@ h5 {
 .h6,
 h6 {
   font-size: 1rem;
+}
+.nav-item {
+  font-size: 25px;
 }
 .lead {
   font-size: 1.25rem;
