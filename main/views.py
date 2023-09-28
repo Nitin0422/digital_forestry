@@ -262,3 +262,4 @@ def etrs_delete(request, etrs_information_id):
         return render(request, "main/confirm.html", {"source": source})
     except Exception as e:
         return redirect("main:etrs_information")
+    
