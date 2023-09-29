@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import AccountInformation, LandInformation, SeedTreeForestInformation, LocalLevel, Ward, ElectronicTreesModel, UrbanParkTreesModel
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, LocalLevel, Ward, ElectronicTreesModel, UrbanParkTreesModel, CitiesTreesModel
 
 
 User = get_user_model()
@@ -96,6 +96,22 @@ class UrbanParkTreesForestInformationForm(forms.ModelForm):
         model = UrbanParkTreesModel
         fields = ('tree_species', 'land', 'tree_type', 'tree_code', 'plantation_year',
                   'girth_cm', 'average_height')
+
+    def __init__(self, *args, **kwargs):
+        # Pop the 'user' keyword argument with a default value of None
+        user = kwargs.pop('user_id', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['land'].queryset = LandInformation.objects.filter(
+                user_id=user)
+        else:
+            self.fields['land'].queryset = LandInformation.objects.none()
+
+class CitiesTreeForestInformationForm(forms.ModelForm):
+    class Meta:
+        model = CitiesTreesModel
+        fields = ('tree_species', 'land', 'tree_type', 'tree_code', 'plantation_year',
+                  'girth_cm', 'average_height', 'vol_meter_cube', 'carbon_content_analysis')
 
     def __init__(self, *args, **kwargs):
         # Pop the 'user' keyword argument with a default value of None

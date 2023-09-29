@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm, ElectronicTreeForestInformationForm, UrbanParkTreesForestInformationForm
+from .forms import RegistrationForm, EmailAuthenticationForm, AccountInformationForm, LandInformationForm, SeedTreeForestInformationForm, ElectronicTreeForestInformationForm, UrbanParkTreesForestInformationForm, CitiesTreeForestInformationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel, ElectronicTreesModel, UrbanParkTreesModel
+from .models import AccountInformation, LandInformation, SeedTreeForestInformation, Ward, LocalLevel, ElectronicTreesModel, UrbanParkTreesModel, CitiesTreesModel
 
 # Create your views here.
 def login_request(request):
@@ -317,3 +317,58 @@ def uprs_delete(request, uprs_information_id):
         return render(request, "main/confirm.html", {"source": source})
     except Exception as e:
         return redirect("main:uprs_view")
+    
+@login_required(login_url='/')
+def ctrs_add(request):
+    if request.method == 'POST':
+        form = CitiesTreeForestInformationForm(request.POST, user_id = request.user.id)
+        if form.is_valid():
+            form.save()
+            return redirect('main:home')
+    form = CitiesTreeForestInformationForm(user_id = request.user.id)
+    return render(request, 'main/ctrsform.html', {"form": form})
+
+@login_required(login_url="/")
+def ctrs_view(request):
+    try:
+        user_id = request.user.id
+        forest_information_datas = []
+        land_instances = get_list_or_404(LandInformation, user_id= user_id)
+        for land_instance in land_instances:
+            forest_instance = get_object_or_404(CitiesTreesModel, land_id = land_instance.id)
+            forest_information_datas.append(forest_instance)
+        return render(request, "main/ctrsview.html", {"forest_information_datas":forest_information_datas})
+    except Exception as e:
+        print(e)
+        forest_information_datas = None
+        return render(request, "main/ctrsview.html", {"forest_information_datas":forest_information_datas})
+
+@login_required(login_url='/')
+def ctrs_update(request, ctrs_information_id):
+    try:
+        user = request.user.id
+        print(ctrs_information_id)
+        ctrs_information_instance = get_object_or_404(CitiesTreesModel, pk = ctrs_information_id)
+        if request.method == "POST":
+            form = CitiesTreeForestInformationForm(request.POST, instance=ctrs_information_instance, user_id = user)
+            if form.is_valid():
+                form.save()
+                return redirect('main:ctrs_view')
+        
+        form = CitiesTreeForestInformationForm(instance=ctrs_information_instance, user_id = user)
+        return render(request, "main/ctrsform.html", {"form":form})
+    except Exception as e:
+        print(e)
+        return redirect('main:ctrs_view')
+
+@login_required(login_url="/")
+def ctrs_delete(request, ctrs_information_id):
+    try:
+        ctrs_information_instance = get_object_or_404(ElectronicTreesModel, pk = ctrs_information_id)
+        source = "CTRS"
+        if request.method == "POST":
+            ctrs_information_instance.delete()
+            return redirect("main:ctrs_view")
+        return render(request, "main/confirm.html", {"source": source})
+    except Exception as e:
+        return redirect("main:ctrs_view")
