@@ -28,5 +28,7 @@ urlpatterns = [
     path('home/uprs/add', views.uprs_add, name='uprs_add'),
     path('home/uprs/view', views.uprs_view, name="uprs_view"),
     path('home/uprs/update/<int:uprs_information_id>', views.uprs_update, name='uprs_update'),
-    path('home/uprs/delete/<int:uprs_information_id>', views.uprs_delete, name='uprs_delete')
+    path('home/uprs/delete/<int:uprs_information_id>', views.uprs_delete, name='uprs_delete'),
+    path('home/ctrs/add', views.ctrs_add, name='ctrs_add'),
+    path('home/ctrs/view', views.ctrs_view, name='ctrs_view'),
 ]
