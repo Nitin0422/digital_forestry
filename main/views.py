@@ -342,4 +342,33 @@ def ctrs_view(request):
         print(e)
         forest_information_datas = None
         return render(request, "main/ctrsview.html", {"forest_information_datas":forest_information_datas})
- 
+
+@login_required(login_url='/')
+def ctrs_update(request, ctrs_information_id):
+    try:
+        user = request.user.id
+        print(ctrs_information_id)
+        ctrs_information_instance = get_object_or_404(CitiesTreesModel, pk = ctrs_information_id)
+        if request.method == "POST":
+            form = CitiesTreeForestInformationForm(request.POST, instance=ctrs_information_instance, user_id = user)
+            if form.is_valid():
+                form.save()
+                return redirect('main:ctrs_view')
+        
+        form = CitiesTreeForestInformationForm(instance=ctrs_information_instance, user_id = user)
+        return render(request, "main/ctrsform.html", {"form":form})
+    except Exception as e:
+        print(e)
+        return redirect('main:ctrs_view')
+
+@login_required(login_url="/")
+def ctrs_delete(request, ctrs_information_id):
+    try:
+        ctrs_information_instance = get_object_or_404(ElectronicTreesModel, pk = ctrs_information_id)
+        source = "CTRS"
+        if request.method == "POST":
+            ctrs_information_instance.delete()
+            return redirect("main:ctrs_view")
+        return render(request, "main/confirm.html", {"source": source})
+    except Exception as e:
+        return redirect("main:ctrs_view")
